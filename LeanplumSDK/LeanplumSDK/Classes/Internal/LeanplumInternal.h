@@ -58,7 +58,7 @@ typedef void (^LeanplumStartIssuedBlock)(void);
 typedef void (^LeanplumEventsChangedBlock)(void);
 typedef void (^LeanplumHandledBlock)(BOOL success);
 
-@property(class, readonly) User *user;
+@property(class, readonly) LpUser *user;
 
 + (NotificationsManager *)notificationsManager;
 
