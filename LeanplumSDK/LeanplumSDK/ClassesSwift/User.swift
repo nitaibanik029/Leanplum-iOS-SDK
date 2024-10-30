@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc public class User: NSObject {
+@objc public class LpUser: NSObject {
     public struct UserKey {
         public let appId: String
         public let userId: String

@@ -22,21 +22,21 @@
 //  specific language governing permissions and limitations
 //  under the License.
 
-#import "Leanplum.h"
 #import "LPActionContext-Internal.h"
-#import "LPVar-Internal.h"
-#import "LPConstants.h"
 #import "LPActionTriggerManager.h"
-#import "LPJSON.h"
-#import "LPInternalState.h"
+#import "LPConstants.h"
 #import "LPCountAggregator.h"
+#import "LPInternalState.h"
+#import "LPJSON.h"
+#import "LPVar-Internal.h"
+#import "Leanplum.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class LeanplumSocket;
 @class LPRegisterDevice;
 @class NotificationsManager;
-@class User;
+@class LpUser;
 
 /**
  * Keys for the plist file name
@@ -58,9 +58,9 @@ typedef void (^LeanplumStartIssuedBlock)(void);
 typedef void (^LeanplumEventsChangedBlock)(void);
 typedef void (^LeanplumHandledBlock)(BOOL success);
 
-@property (class, readonly) User* user;
+@property(class, readonly) User *user;
 
-+ (NotificationsManager*)notificationsManager;
++ (NotificationsManager *)notificationsManager;
 
 + (void)throwError:(NSString *)reason;
 
@@ -69,21 +69,22 @@ typedef void (^LeanplumHandledBlock)(BOOL success);
 + (void)pause;
 + (void)resume;
 
-+ (BOOL)setAppUsingPlist:(NSDictionary *)appKeysDictionary forEnvironment:(NSString *)env;
-+ (NSDictionary *) getDefaultAppKeysPlist;
++ (BOOL)setAppUsingPlist:(NSDictionary *)appKeysDictionary
+          forEnvironment:(NSString *)env;
++ (NSDictionary *)getDefaultAppKeysPlist;
 
 + (void)track:(nullable NSString *)event
-    withValue:(double)value
-      andArgs:(nullable NSDictionary<NSString *, id> *)args
-andParameters:(nullable NSDictionary<NSString *, id> *)params
-NS_SWIFT_NAME(track(event:value:args:params:));
+        withValue:(double)value
+          andArgs:(nullable NSDictionary<NSString *, id> *)args
+    andParameters:(nullable NSDictionary<NSString *, id> *)params
+    NS_SWIFT_NAME(track(event:value:args:params:));
 
 + (void)track:(nullable NSString *)event
-    withValue:(double)value
-      andInfo:(nullable NSString *)info
-      andArgs:(nullable NSDictionary<NSString *, id> *)args
-andParameters:(nullable NSDictionary<NSString *, id> *)params
-NS_SWIFT_NAME(track(event:value:info:args:params:));
+        withValue:(double)value
+          andInfo:(nullable NSString *)info
+          andArgs:(nullable NSDictionary<NSString *, id> *)args
+    andParameters:(nullable NSDictionary<NSString *, id> *)params
+    NS_SWIFT_NAME(track(event:value:info:args:params:));
 
 + (void)setUserLocationAttributeWithLatitude:(double)latitude
                                    longitude:(double)longitude
@@ -91,7 +92,8 @@ NS_SWIFT_NAME(track(event:value:info:args:params:));
                                       region:(NSString *)region
                                      country:(NSString *)country
                                         type:(LPLocationAccuracyType)type
-                             responseHandler:(nullable LeanplumSetLocationBlock)response;
+                             responseHandler:
+                                 (nullable LeanplumSetLocationBlock)response;
 
 + (LPActionContext *)createActionContextForMessageId:(NSString *)messageId;
 + (void)maybePerformActions:(NSArray<NSString *> *)whenConditions
@@ -100,9 +102,13 @@ NS_SWIFT_NAME(track(event:value:info:args:params:));
               fromMessageId:(nullable NSString *)sourceMessage
        withContextualValues:(nullable LPContextualValues *)contextualValues;
 
-+ (NSInvocation *)createInvocationWithResponder:(id)responder selector:(SEL)selector;
-+ (void)addInvocation:(NSInvocation *)invocation toSet:(NSMutableSet *)responders;
-+ (void)removeResponder:(id)responder withSelector:(SEL)selector fromSet:(NSMutableSet *)responders;
++ (NSInvocation *)createInvocationWithResponder:(id)responder
+                                       selector:(SEL)selector;
++ (void)addInvocation:(NSInvocation *)invocation
+                toSet:(NSMutableSet *)responders;
++ (void)removeResponder:(id)responder
+           withSelector:(SEL)selector
+                fromSet:(NSMutableSet *)responders;
 
 + (void)onStartIssued:(LeanplumStartIssuedBlock)block;
 + (void)synchronizeDefaults;
@@ -113,7 +119,7 @@ NS_SWIFT_NAME(track(event:value:info:args:params:));
 
 @interface LPInbox () {
 @private
-    BOOL _didLoad;
+  BOOL _didLoad;
 }
 
 typedef void (^LeanplumInboxCacheUpdateBlock)(void);
@@ -136,11 +142,14 @@ typedef void (^LeanplumInboxCacheUpdateBlock)(void);
 - (void)load;
 - (void)save;
 - (void)updateUnreadCount:(NSUInteger)unreadCount;
-- (void)updateMessages:(NSMutableDictionary *)messages unreadCount:(NSUInteger)unreadCount;
+- (void)updateMessages:(NSMutableDictionary *)messages
+           unreadCount:(NSUInteger)unreadCount;
 - (void)removeMessageForId:(NSString *)messageId;
 - (void)reset;
 - (void)triggerInboxChanged;
-- (void)triggerInboxSyncedWithStatus:(BOOL)success withCompletionHandler:(nullable LeanplumInboxSyncedBlock)completionHandler;
+- (void)triggerInboxSyncedWithStatus:(BOOL)success
+               withCompletionHandler:
+                   (nullable LeanplumInboxSyncedBlock)completionHandler;
 
 @end
 
